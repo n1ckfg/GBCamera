@@ -56,5 +56,6 @@ void updateDelay() {
     buffer.popMatrix();
   }
   buffer.popMatrix();
+  buffer.filter(shader_gb);
   buffer.endDraw();
 }
