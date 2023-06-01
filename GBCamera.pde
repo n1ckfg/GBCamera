@@ -24,6 +24,8 @@ void draw() {
   shader(shader);
   
   image(video, 0, 0);
+  
+  surface.setTitle("" + frameRate);
 }
 
 void captureEvent(Capture c) {

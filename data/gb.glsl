@@ -29,15 +29,18 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
         float(paletteIndex & 1)
     );
 
+    float texGray2 = texGray * dot(ditheredColor, vec3(0.299, 0.587, 0.114));
+
     vec3 color;
-    if (texColor.r <= 0.25)
+    if (texGray2 <= 0.25) {
         color = black;
-    else if (texColor.r <= 0.5)
+    } else if (texGray2 <= 0.5) {
         color = darkGray;
-    else if (texColor.r <= 0.75)
+    } else if (texGray2 <= 0.75) {
         color = lightGray;
-    else
+    } else {
         color = white;
+    }
 
     fragColor = vec4(color, 1.0);
 }
