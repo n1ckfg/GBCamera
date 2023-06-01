@@ -1,8 +1,8 @@
 float[] bright;
-float spacing = 1.5;
+float spacing = 1; //1.5;
 
 void setupDelay() {
-  int count = video.width * video.height;
+  int count = buffer.width * buffer.height;
 
   // current brightness for each point
   bright = new float[count];
@@ -12,22 +12,25 @@ void setupDelay() {
   }
 }
 
-void drawDelay() {
-  pushMatrix();
+void updateDelay() {
+  buffer.beginDraw();
+  buffer.image(video, 0, 0, buffer.width, buffer.height);
+  
+  buffer.pushMatrix();
 
-  float hgap = width / float(video.width);
-  float vgap = height / float(video.height);
+  float hgap = width / float(buffer.width);
+  float vgap = height / float(buffer.height);
 
-  scale(max(hgap, vgap) * spacing);
+  buffer.scale(max(hgap, vgap) * spacing);
 
   int index = 0;
-  video.loadPixels();
-  for (int y = 1; y < video.height; y++) {
-    translate(0,  1.0 / spacing);
+  buffer.loadPixels();
+  for (int y = 1; y < buffer.height; y++) {
+    buffer.translate(0,  1.0 / spacing);
 
-    pushMatrix();
-    for (int x = 0; x < video.width; x++) {
-      int pixelColor = video.pixels[index];
+    buffer.pushMatrix();
+    for (int x = 0; x < buffer.width; x++) {
+      int pixelColor = buffer.pixels[index];
       // Faster method of calculating r, g, b than red(), green(), blue()
       int r = (pixelColor >> 16) & 0xff;
       int g = (pixelColor >> 8) & 0xff;
@@ -44,16 +47,17 @@ void drawDelay() {
       bright[index] += diff * 0.1;
 
       int num = int(bright[index]);
-      stroke(num);
-      point(0,0);
+      buffer.stroke(num);
+      buffer.point(0,0);
 
       // Move to the next pixel
       index++;
 
       // Move over for next character
-      translate(1.0 / spacing, 0);
+      buffer.translate(1.0 / spacing, 0);
     }
-    popMatrix();
+    buffer.popMatrix();
   }
-  popMatrix();
+  buffer.popMatrix();
+  buffer.endDraw();
 }

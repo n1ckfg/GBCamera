@@ -6,24 +6,29 @@ import processing.video.*;
 Capture video;
 boolean firstRun;
 PShader shader;
+PGraphics buffer;
 
 void setup() {
   size(640, 480, P2D);
-
+  buffer = createGraphics(640, 480, P2D);
+  
   video = new Capture(this, 640, 480);
   video.start(); 
+  setupDelay();
   
   shader = loadShader("gb.glsl");
-  shader.set("iResolution", float(width), float(height));
+  shader.set("iResolution", float(buffer.width), float(buffer.height));
 }
 
 void draw() {
   background(0);
-
-  shader.set("tex0", video);
+  
+  updateDelay();
+    
+  shader.set("tex0", buffer);
   shader(shader);
   
-  image(video, 0, 0);
+  image(buffer, 0, 0, width, height);
   
   surface.setTitle("" + frameRate);
 }

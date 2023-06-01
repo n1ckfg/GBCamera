@@ -14,8 +14,8 @@ const mat3 ditherPattern = mat3(
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 uv = fragCoord.xy / iResolution.xy;
-    vec2 uv2 = vec2(uv.x, abs(1.0 - uv.y));
-    vec3 texColor = texture2D(tex0, uv2).xyz;
+    //vec2 uv2 = vec2(uv.x, abs(1.0 - uv.y));
+    vec3 texColor = texture2D(tex0, uv).xyz;
     
     float texGray = dot(texColor, vec3(0.299, 0.587, 0.114));
     int paletteIndex = int(texGray * 15.0);
