@@ -7,7 +7,6 @@
 void keyPressed() {
   switch (key) {
     case 'g': saveFrame(); break;
-    case 'c': cheatScreen = !cheatScreen; break;
     case 'f': spacing *= 1.1; break;
     case 'F': spacing *= 0.9; break;
   }
