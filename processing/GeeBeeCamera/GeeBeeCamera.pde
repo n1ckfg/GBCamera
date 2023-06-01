@@ -6,16 +6,23 @@ Capture video;
 boolean preview;
 PShader shader_gb;
 PGraphics buffer, buffer2, buffer3;
+int textureSampleMode = 3;
 
 void setup() {
   size(1280, 960, P2D);
+  ((PGraphicsOpenGL)g).textureSampling(textureSampleMode); 
   noSmooth();
-
+  
   buffer = createGraphics(150, 112, P2D);
+  ((PGraphicsOpenGL)buffer).textureSampling(textureSampleMode); 
   buffer.noSmooth();
+  
   buffer2 = createGraphics(128, 112, P2D);
+  ((PGraphicsOpenGL)buffer2).textureSampling(textureSampleMode); 
   buffer2.noSmooth();
+  
   buffer3 = createGraphics(160, 144, P2D);
+  ((PGraphicsOpenGL)buffer3).textureSampling(textureSampleMode); 
   buffer3.noSmooth();
   
   video = new Capture(this, 640, 480);
