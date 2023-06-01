@@ -1,3 +1,5 @@
+// Based on ASCII Video by Ben Fry.
+
 float[] bright;
 
 void setupDelay() {
@@ -41,9 +43,10 @@ void updateDelay() {
       bright[index] += diff * 0.1;
 
       int num = int(bright[index]);
-      buffer.stroke(num);
-      buffer.point(0,0);
-
+      buffer.noStroke();
+      buffer.fill(num);
+      buffer.square(0,0,1);
+      
       // Move to the next pixel
       index++;
 

@@ -29,7 +29,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
         float(paletteIndex & 1)
     );
 
-    float texGray2 = texGray * dot(ditheredColor, vec3(0.299, 0.587, 0.114));
+    float texGray2 = texGray - 0.15 * dot(ditheredColor, vec3(0.299, 0.587, 0.114));
 
     vec3 color;
     if (texGray2 <= 0.25) {
