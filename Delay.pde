@@ -1,5 +1,4 @@
 float[] bright;
-float spacing = 1; //1.5;
 
 void setupDelay() {
   int count = buffer.width * buffer.height;
@@ -15,18 +14,13 @@ void setupDelay() {
 void updateDelay() {
   buffer.beginDraw();
   buffer.image(video, 0, 0, buffer.width, buffer.height);
-  
+  buffer.loadPixels();
+
   buffer.pushMatrix();
 
-  float hgap = width / float(buffer.width);
-  float vgap = height / float(buffer.height);
-
-  buffer.scale(max(hgap, vgap) * spacing);
-
   int index = 0;
-  buffer.loadPixels();
   for (int y = 1; y < buffer.height; y++) {
-    buffer.translate(0,  1.0 / spacing);
+    buffer.translate(0,  1);
 
     buffer.pushMatrix();
     for (int x = 0; x < buffer.width; x++) {
@@ -54,7 +48,7 @@ void updateDelay() {
       index++;
 
       // Move over for next character
-      buffer.translate(1.0 / spacing, 0);
+      buffer.translate(1, 0);
     }
     buffer.popMatrix();
   }

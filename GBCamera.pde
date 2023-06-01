@@ -5,19 +5,24 @@ import processing.video.*;
 
 Capture video;
 boolean firstRun;
-PShader shader;
-PGraphics buffer;
+PShader shader_gb;
+PGraphics buffer, buffer2;
+int camW = 160;
+int camH = 120;
 
 void setup() {
   size(640, 480, P2D);
-  buffer = createGraphics(640, 480, P2D);
+  buffer = createGraphics(camW, camH, P2D);
+  buffer.noSmooth();
+  buffer2 = createGraphics(camW, camH, P2D);
+  buffer2.noSmooth();
   
   video = new Capture(this, 640, 480);
   video.start(); 
   setupDelay();
   
-  shader = loadShader("gb.glsl");
-  shader.set("iResolution", float(buffer.width), float(buffer.height));
+  shader_gb = loadShader("gb.glsl");
+  shader_gb.set("iResolution", float(buffer.width), float(buffer.height));
 }
 
 void draw() {
@@ -25,10 +30,13 @@ void draw() {
   
   updateDelay();
     
-  shader.set("tex0", buffer);
-  shader(shader);
+  shader_gb.set("tex0", buffer);
   
-  image(buffer, 0, 0, width, height);
+  buffer2.beginDraw();
+  buffer2.filter(shader_gb);
+  buffer2.endDraw();
+  
+  image(buffer2, 0, 0, width, height);
   
   surface.setTitle("" + frameRate);
 }
