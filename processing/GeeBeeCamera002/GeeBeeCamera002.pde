@@ -29,7 +29,7 @@ void setup() {
   video.start(); 
   setupDelay();
   
-  shader_gb = loadShader("gb.glsl");
+  shader_gb = loadShader("gb002.glsl");
   shader_gb.set("iResolution", float(buffer.width), float(buffer.height));
   shader_gb.set("tex0", buffer);
 }

@@ -2,7 +2,7 @@ uniform sampler2D tex0, tex1;
 uniform vec2 iResolution;
 
 float getLuminance(vec3 col) {
-    return 0.3*col.x + 0.59*col.y + 0.11*col.z;
+    return dot(col, vec3(0.299, 0.587, 0.114));
 }
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {

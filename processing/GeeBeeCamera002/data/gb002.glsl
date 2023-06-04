@@ -12,12 +12,16 @@ const mat3 ditherPattern = mat3(
     0.1875, 0.6875, 0.0625
 );
 
+float getLuminance(vec3 col) {
+    return dot(col, vec3(0.299, 0.587, 0.114));
+}
+
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 uv = fragCoord.xy / iResolution.xy;
     //vec2 uv2 = vec2(uv.x, abs(1.0 - uv.y));
     vec3 texColor = texture2D(tex0, uv).xyz;
     
-    float texGray = dot(texColor, vec3(0.299, 0.587, 0.114));
+    float texGray = getLuminance(texColor);
     int paletteIndex = int(texGray * 15.0);
     int x = int(fragCoord.x) % 3;
     int y = int(fragCoord.y) % 3;
@@ -29,7 +33,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
         float(paletteIndex & 1)
     );
 
-    float texGray2 = texGray - 0.15 * dot(ditheredColor, vec3(0.299, 0.587, 0.114));
+    float texGray2 = texGray - 0.15 * getLuminance(ditheredColor);
 
     vec3 color;
     if (texGray2 <= 0.25) {
