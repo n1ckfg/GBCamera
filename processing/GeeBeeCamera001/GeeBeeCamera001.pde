@@ -24,7 +24,7 @@ void setup() {
   video = new Capture(this, 640, 480);
   video.start(); 
   
-  shader_delay = loadShader("gb001.glsl");
+  shader_delay = loadShader("delay.glsl");
   shader_delay.set("iResolution", float(buffer0.width), float(buffer0.height));
   shader_delay.set("tex0", buffer0);
   shader_delay.set("tex1", buffer1);
