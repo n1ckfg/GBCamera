@@ -1,3 +1,0 @@
-void keyPressed() {
-  preview = !preview;
-}
