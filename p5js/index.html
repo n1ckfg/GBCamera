@@ -2,14 +2,46 @@
 
 <head>
 	<title>...</title>
-	<script src="p5.min.js"></script>
+    <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
+    <style>
+    	body {
+			padding: 0;
+			margin: 0;
+			overflow: hidden;
+		}
+    </style>
+    <script src="p5.min.js"></script>
 	<script>
+		let video;
+		let shader_basic;
+		let buffer;
+
+		function preload(){
+			shader_basic = loadShader("basic.vert", "basic.frag");
+		}
+
 		function setup() {
-			createCanvas(800, 600, P2D);
+			createCanvas(windowWidth, windowHeight, WEBGL);
+			video = createCapture(VIDEO);
+			video.size(640, 480);
+			video.hide();
+
+			//shader_basic.setUniform("iResolution", [width, height]);
+			buffer = createGraphics(120, 90, WEBGL);
+			imageMode(CENTER);
+			buffer.imageMode(CENTER);
 		}
 
 		function draw() {
-			background(random(255));
+			background(0);
+			//shader(shader_basic);
+			//rect(0, 0, width, height);
+			buffer.image(video, 0, 0, buffer.width, buffer.height*4);
+			image(buffer, -width/2, -height/2, width*2, height*2);
+		}
+
+		function windowResized(){
+			resizeCanvas(windowWidth, windowHeight);
 		}
 	</script>
 </head>
