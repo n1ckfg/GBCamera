@@ -1,10 +1,15 @@
 String format = "gameboy";
-//String format = "pixelvision";
 
 int camW, camH, camFps, baseW, baseH, cropW, cropH, finalW, finalH;
 int cropOffsetW, cropOffsetH, marginW, marginH;
+float delaySpeed;
 
 void setupSpecs() {
+  setupSpecs("gameboy");
+}
+
+void setupSpecs(String _format) {
+  format = _format;
   switch(format) {
     case "gameboy":
       camW = 640;
@@ -16,6 +21,7 @@ void setupSpecs() {
       cropH = 112;
       finalW = 160;
       finalH = 144;
+      delaySpeed = 0.1;
       break;
     case "pixelvision":
       camW = 640;
@@ -23,15 +29,69 @@ void setupSpecs() {
       camFps = 15;
       baseW = 120;
       baseH = 90;
-      cropW = 120;
-      cropH = 90;
+      cropW = baseW;
+      cropH = baseH;
       finalW = 160;
       finalH = 120;
+      delaySpeed = 0.2;
+      break;
+    case "vhs-c":
+      camW = 640;
+      camH = 480;
+      camFps = 30;
+      baseW = 352;
+      baseH = 480;
+      cropW = baseW;
+      cropH = baseH;
+      finalW = 320;
+      finalH = 480;
+      delaySpeed = 0.2;
       break;
   }
   
+  init();
+}
+
+void init() {
   cropOffsetW = -1 * ((baseW-cropW)/2);
   cropOffsetH = -1 * ((baseH-cropH)/2);
   marginW = (finalW - cropW)/2;
   marginH = (finalH - cropH)/2;
+
+  buffer0 = createGraphics(baseW, baseH, P2D);
+  ((PGraphicsOpenGL)buffer0).textureSampling(textureSampleMode); 
+  buffer0.noSmooth();
+
+  buffer1 = createGraphics(baseW, baseH, P2D);
+  ((PGraphicsOpenGL)buffer1).textureSampling(textureSampleMode); 
+  buffer1.noSmooth();
+  buffer1.beginDraw();
+  buffer1.background(127);
+  buffer1.endDraw();
+  
+  buffer2 = createGraphics(baseW, baseH, P2D);
+  ((PGraphicsOpenGL)buffer2).textureSampling(textureSampleMode); 
+  buffer2.noSmooth();
+  
+  buffer3 = createGraphics(cropW, cropH, P2D);
+  ((PGraphicsOpenGL)buffer3).textureSampling(textureSampleMode); 
+  buffer3.noSmooth();
+
+  buffer4 = createGraphics(finalW, finalH, P2D);
+  ((PGraphicsOpenGL)buffer4).textureSampling(textureSampleMode); 
+  buffer4.noSmooth();
+
+  shader_delay.set("iResolution", float(buffer0.width), float(buffer0.height));
+  shader_delay.set("delaySpeed", delaySpeed);
+  shader_delay.set("tex0", buffer0);
+  shader_delay.set("tex1", buffer1);
+  
+  shader_gb.set("iResolution", float(buffer0.width), float(buffer0.height));
+  shader_gb.set("tex0", buffer0);
+  
+  shader_px.set("iResolution", float(buffer0.width), float(buffer0.height));
+  shader_px.set("tex0", buffer0);
+
+  shader_vhsc.set("iResolution", float(buffer0.width), float(buffer0.height));
+  shader_vhsc.set("tex0", buffer0);
 }
