@@ -2,34 +2,36 @@
 
 <head>
 	<title>...</title>
-    <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
-    <style>
-    	body {
-			padding: 0;
-			margin: 0;
-			overflow: hidden;
-		}
-    </style>
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <script src="p5.min.js"></script>
 	<script>
+		"use strict";
+
+		const sW = 800;
+		const sH = 600;
+		const aspectW = 4;
+		const aspectH = 3;
+
 		let video;
 		let shader_basic;
-		let buffer;
+		let pg, buffer;
 
 		function preload(){
 			shader_basic = loadShader("basic.vert", "gb.frag");
 		}
 
 		function setup() {
-			createCanvas(windowWidth, windowHeight, WEBGL);
+			createCanvas(sW, sH);
+			windowResized();
+			pg = createGraphics(sW, sH, WEBGL);
+			pixelDensity(1);  
+			noCursor();
+			frameRate(60);
+
 			video = createCapture(VIDEO);
 			video.size(640, 480);
 			video.hide();
-
-			//shader_basic.setUniform("iResolution", [width, height]);
-			buffer = createGraphics(120, 90, WEBGL);
-			imageMode(CENTER);
-			buffer.imageMode(CENTER);
 		}
 
 		function draw() {
@@ -38,13 +40,19 @@
 			//buffer.image(video, 0, 0, buffer.width, buffer.height*4);
 			//image(buffer, -width/2, -height/2, width*2, height*2);
 
-			shader(shader_basic);
-			shader_basic.setUniform('tex0', video);
-			rect(0, 0, width, height);
+			pg.background(100, 0, 0);
+			pg.shader(shader_basic);
+			shader_basic.setUniform("tex0", video);
+			pg.rect(-pg.width/2, -pg.height/2, pg.width, pg.height);
+
+
+			image(pg, 0, 0, width, height);
 		}
 
 		function windowResized(){
-			resizeCanvas(windowWidth, windowHeight);
+			const wW = windowHeight * (aspectW / aspectH);
+			const wH = windowHeight;
+			resizeCanvas(wW, wH);
 		}
 	</script>
 </head>
