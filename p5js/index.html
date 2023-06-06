@@ -17,7 +17,7 @@
 		let buffer;
 
 		function preload(){
-			shader_basic = loadShader("basic.vert", "basic.frag");
+			shader_basic = loadShader("basic.vert", "gb.frag");
 		}
 
 		function setup() {
@@ -34,10 +34,13 @@
 
 		function draw() {
 			background(0);
-			//shader(shader_basic);
-			//rect(0, 0, width, height);
-			buffer.image(video, 0, 0, buffer.width, buffer.height*4);
-			image(buffer, -width/2, -height/2, width*2, height*2);
+
+			//buffer.image(video, 0, 0, buffer.width, buffer.height*4);
+			//image(buffer, -width/2, -height/2, width*2, height*2);
+
+			shader(shader_basic);
+			shader_basic.setUniform('tex0', video);
+			rect(0, 0, width, height);
 		}
 
 		function windowResized(){
