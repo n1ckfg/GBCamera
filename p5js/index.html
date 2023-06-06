@@ -32,24 +32,22 @@
 			video = createCapture(VIDEO);
 			video.size(640, 480);
 			video.hide();
+
+			buffer = createGraphics(120, 90, WEBGL);
 		}
 
 		function draw() {
 			background(0);
 
-			//buffer.image(video, 0, 0, buffer.width, buffer.height*4);
-			//image(buffer, -width/2, -height/2, width*2, height*2);
-
-			pg.background(100, 0, 0);
-			pg.shader(shader_basic);
+			buffer.shader(shader_basic);
 			shader_basic.setUniform("tex0", video);
-			pg.rect(-pg.width/2, -pg.height/2, pg.width, pg.height);
-
+			buffer.rect(-pg.width/2, -pg.height/2, pg.width, pg.height);
+			pg.image(buffer, -pg.width/2, -pg.height/2, pg.width, pg.height);
 
 			image(pg, 0, 0, width, height);
 		}
 
-		function windowResized(){
+		function windowResized() {
 			const wW = windowHeight * (aspectW / aspectH);
 			const wH = windowHeight;
 			resizeCanvas(wW, wH);

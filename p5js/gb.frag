@@ -15,22 +15,35 @@ float getLuminance(vec3 col) {
 }
 
 void main() {
+    vec3 palette[4];
+    palette[0] = white;
+    palette[1] = lightGray;
+    palette[2] = darkGray;
+    palette[3] = black;
+
     vec2 uv = vTexCoord.xy;
     vec2 uv2 = vec2(uv.x, abs(1.0 - uv.y));
     vec3 texColor = texture2D(tex0, uv2).xyz;
     
     float texGray = getLuminance(texColor);
 
-    vec3 color;
-    if (texGray <= 0.25) {
-        color = black;
-    } else if (texGray <= 0.5) {
-        color = darkGray;
-    } else if (texGray <= 0.75) {
-        color = lightGray;
-    } else {
-        color = white;
+    vec3 closestColor = palette[0];
+    float closestDist = distance(texGray, getLuminance(palette[0]));
+
+    for (int i = 1; i < 4; i++) {
+        float dist = distance(texGray, getLuminance(palette[i]));
+        if (dist < closestDist) {
+            closestColor = palette[i];
+            closestDist = dist;
+        }
     }
 
-    gl_FragColor = vec4(color, 1.0);
+    vec2 ditherOffset = vec2(mod(gl_FragCoord.x, 2.0) - 0.5, mod(gl_FragCoord.y, 2.0) - 0.5);
+    float ditherThreshold = 0.25;
+
+    if (texGray + ditherOffset.x * ditherThreshold < getLuminance(closestColor)) {
+        gl_FragColor = vec4(closestColor, 1.0);
+    } else {
+        gl_FragColor = vec4(vec3(0.0), 1.0);
+    }
 }
