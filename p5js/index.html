@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script src="p5.min.js"></script>
+    <script src="resizeNN.js"></script>
 	<script>
 		"use strict";
 
@@ -18,7 +19,7 @@
 		let pg, buffer;
 
 		function preload(){
-			shader_basic = loadShader("basic.vert", "gb.frag");
+			shader_basic = loadShader("basic.vert", "dither.frag");
 		}
 
 		function setup() {
@@ -33,7 +34,7 @@
 			video.size(640, 480);
 			video.hide();
 
-			buffer = createGraphics(120, 90, WEBGL);
+			buffer = createGraphics(160, 120, WEBGL);
 		}
 
 		function draw() {
@@ -41,8 +42,8 @@
 
 			buffer.shader(shader_basic);
 			shader_basic.setUniform("tex0", video);
-			buffer.rect(-pg.width/2, -pg.height/2, pg.width, pg.height);
-			pg.image(buffer, -pg.width/2, -pg.height/2, pg.width, pg.height);
+			buffer.rect(-buffer.width/2, -buffer.height/2, buffer.width, buffer.height);
+			pg.image(buffer.get().resizeNN(pg.width, pg.height), -pg.width/2, -pg.height/2, pg.width, pg.height);
 
 			image(pg, 0, 0, width, height);
 		}

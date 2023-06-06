@@ -9,6 +9,7 @@ const vec3 white = vec3(0.937, 0.937, 0.937);
 const vec3 lightGray = vec3(0.686, 0.686, 0.686);
 const vec3 darkGray = vec3(0.376, 0.376, 0.376);
 const vec3 black = vec3(0.066, 0.066, 0.066);
+const vec3 green = vec3(0.7, 1.0, 0.8);
 
 float getLuminance(vec3 col) {
     return dot(col, vec3(0.299, 0.587, 0.114));
@@ -42,7 +43,7 @@ void main() {
     float ditherThreshold = 0.25;
 
     if (texGray + ditherOffset.x * ditherThreshold < getLuminance(closestColor)) {
-        gl_FragColor = vec4(closestColor, 1.0);
+        gl_FragColor = vec4(closestColor * green, 1.0);
     } else {
         gl_FragColor = vec4(vec3(0.0), 1.0);
     }
