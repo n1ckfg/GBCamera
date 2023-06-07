@@ -19,6 +19,7 @@
 		let video;
 		let shader_basic, shader_delay, shader_dither, shader_sharpen;
 		let pg, buffer0, buffer1, buffer2;
+		let displayMode = 1;
 
 		function preload(){
 			shader_basic = loadShader("basic.vert", "basic.frag");
@@ -55,8 +56,16 @@
 			buffer0.shader(shader_delay);
 			buffer0.rect(0, 0, buffer0.width, buffer0.height);
 
-			buffer2.shader(shader_dither);
-			shader_dither.setUniform("tex0", buffer0);
+			switch (displayMode) {
+				case 1:
+					buffer2.shader(shader_dither);
+					shader_dither.setUniform("tex0", buffer0);
+					break;
+				case 2:
+					buffer2.shader(shader_basic);
+					shader_basic.setUniform("tex0", buffer0);
+					break;
+			}
 			buffer2.rect(0, 0, buffer2.width, buffer2.height);
 			
 			pg.shader(shader_sharpen);
@@ -73,6 +82,17 @@
 			const wW = windowHeight * (aspectW / aspectH);
 			const wH = windowHeight;
 			resizeCanvas(wW, wH);
+		}
+
+		function keyPressed() {
+			switch(key) {
+				case '1':
+					displayMode = 1;
+					break;
+				case '2':
+					displayMode = 2;
+					break;
+			}
 		}
 	</script>
 </head>

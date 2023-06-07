@@ -5,7 +5,7 @@ const float gamma = 1.2;
 const vec2 texelSize = vec2(1.0/120.0, 1.0/90.0);
 const float posterizeLevels = 90;
 
-const float sigma = 2.0;
+//const float sigma = 2.0;
 const float kernel[5] = float[](0.10, 0.20, 0.40, 0.20, 0.10);
 
 float getLuminance(vec3 col) {
