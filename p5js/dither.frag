@@ -1,7 +1,6 @@
 precision mediump float;
 
 uniform sampler2D tex0;
-uniform vec2 iResolution;
 
 varying vec2 vTexCoord;
 

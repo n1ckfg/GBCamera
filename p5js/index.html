@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script src="p5.min.js"></script>
-    <script src="resizeNN.js"></script>
 	<script>
 		"use strict";
 
@@ -13,13 +12,19 @@
 		const sH = 600;
 		const aspectW = 4;
 		const aspectH = 3;
+		const bW = 320;
+		const bH = 200;
+		const delaySpeed = 0.05;
 
 		let video;
-		let shader_basic;
-		let pg, buffer;
+		let shader_basic, shader_delay, shader_dither, shader_sharpen;
+		let pg, buffer0, buffer1, buffer2;
 
 		function preload(){
-			shader_basic = loadShader("basic.vert", "dither.frag");
+			shader_basic = loadShader("basic.vert", "basic.frag");
+			shader_delay = loadShader("basic.vert", "delay.frag");
+			shader_dither = loadShader("basic.vert", "dither.frag");
+			shader_sharpen = loadShader("basic.vert", "sharpen.frag");
 		}
 
 		function setup() {
@@ -34,18 +39,34 @@
 			video.size(640, 480);
 			video.hide();
 
-			buffer = createGraphics(160, 120, WEBGL);
+			buffer0 = createGraphics(bW, bH, WEBGL);
+			buffer1 = createGraphics(bW, bH, WEBGL);
+			buffer1.background(127);
+			buffer2 = createGraphics(bW, bH, WEBGL);
 		}
 
 		function draw() {
 			background(0);
 
-			buffer.shader(shader_basic);
-			shader_basic.setUniform("tex0", video);
-			buffer.rect(-buffer.width/2, -buffer.height/2, buffer.width, buffer.height);
-			pg.image(buffer.get().resizeNN(pg.width, pg.height), -pg.width/2, -pg.height/2, pg.width, pg.height);
+			buffer0.image(video, -buffer0.width/2, -buffer0.height/2, buffer0.width, buffer0.height);
+			shader_delay.setUniform("tex0", video);
+			shader_delay.setUniform("tex1", buffer1);
+			shader_delay.setUniform("delaySpeed", delaySpeed);
+			buffer0.shader(shader_delay);
+			buffer0.rect(0, 0, buffer0.width, buffer0.height);
+
+			buffer2.shader(shader_dither);
+			shader_dither.setUniform("tex0", buffer0);
+			buffer2.rect(0, 0, buffer2.width, buffer2.height);
+			
+			pg.shader(shader_sharpen);
+			shader_sharpen.setUniform("tex0", buffer2);
+			shader_sharpen.setUniform("texelSize", [1.0/bW, 1.0/bH]);
+			pg.rect(0, 0, pg.width, pg.height);
 
 			image(pg, 0, 0, width, height);
+
+			buffer1.image(buffer0, -buffer1.width/2, -buffer1.height/2, buffer1.width, buffer1.height)
 		}
 
 		function windowResized() {
