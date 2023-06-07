@@ -8,6 +8,7 @@ boolean preview;
 PShader shader_delay, shader_gb, shader_px, shader_vhsc;
 PGraphics buffer0, buffer1, buffer2, buffer3, buffer4;
 int textureSampleMode = 3;
+boolean useBorders = false;
 
 void setup() {
   size(1280, 960, P2D);
@@ -59,14 +60,19 @@ void draw() {
   buffer3.beginDraw();
   buffer3.image(buffer0, cropOffsetW, cropOffsetH);
   buffer3.endDraw();
-  
+    
   // 4. Expand to final dimensions
   buffer4.beginDraw();
-  buffer4.image(buffer3, marginW, marginH);
+  buffer4.background(0);
+  if (useBorders) {
+    buffer4.image(buffer3, marginW, marginH);
+  } else {
+    buffer4.image(buffer3, 0, 0, buffer4.width, buffer4.height);
+  }
   buffer4.endDraw();
   
   if (preview) {
-    image(video, 0, 0);
+    image(video, 0, 0, width, height);
   } else {
     image(buffer4, 0, 0, width, height);
   }

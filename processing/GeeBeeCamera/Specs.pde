@@ -10,15 +10,16 @@ void setupSpecs() {
 
 void setupSpecs(String _format) {
   format = _format;
+  preview = false;
   switch(format) {
     case "gameboy":
       camW = 640;
       camH = 480;
       camFps = 30;
-      baseW = 150;
+      baseW = 128; // 150
       baseH = 112;
-      cropW = 128;
-      cropH = 112;
+      cropW = baseW; // 128
+      cropH = baseH;
       finalW = 160;
       finalH = 144;
       delaySpeed = 0.1;
@@ -40,11 +41,11 @@ void setupSpecs(String _format) {
       camH = 480;
       camFps = 30;
       baseW = 352;
-      baseH = 480;
+      baseH = 240;
       cropW = baseW;
       cropH = baseH;
-      finalW = 320;
-      finalH = 480;
+      finalW = baseW;
+      finalH = baseH;
       delaySpeed = 0.2;
       break;
   }

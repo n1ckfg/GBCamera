@@ -12,5 +12,8 @@ void keyPressed() {
     case 'p':
       preview = !preview;
       break;
+    case 'b':
+      useBorders = !useBorders;
+      break;
   }
 }
