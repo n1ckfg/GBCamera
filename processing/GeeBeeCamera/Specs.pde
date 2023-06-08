@@ -95,4 +95,7 @@ void init() {
 
   shader_vhsc.set("iResolution", float(buffer0.width), float(buffer0.height));
   shader_vhsc.set("tex0", buffer0);
+  
+  shader_tv.set("iResolution", float(width), float(height));
+  shader_tv.set("tex0", buffer4);
 }

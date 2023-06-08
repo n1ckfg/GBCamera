@@ -5,10 +5,11 @@ import processing.video.*;
 Capture video;
 int captureIndex = 0;
 boolean preview;
-PShader shader_delay, shader_gb, shader_px, shader_vhsc;
+PShader shader_delay, shader_gb, shader_px, shader_vhsc, shader_tv;
 PGraphics buffer0, buffer1, buffer2, buffer3, buffer4;
 int textureSampleMode = 3;
 boolean useBorders = false;
+boolean useTv = false;
 
 void setup() {
   size(1280, 960, P2D);
@@ -19,6 +20,7 @@ void setup() {
   shader_gb = loadShader("gb.glsl");
   shader_px = loadShader("px.glsl");
   shader_vhsc = loadShader("vhsc.glsl");
+  shader_tv = loadShader("tv.glsl");
   
   setupSpecs();
 
@@ -77,6 +79,11 @@ void draw() {
     image(buffer4, 0, 0, width, height);
   }
   
+  if (useTv) {
+    shader_tv.set("time", (float)millis() / 1000.0);
+    filter(shader_tv);
+  }
+    
   surface.setTitle("" + frameRate);
 }
 

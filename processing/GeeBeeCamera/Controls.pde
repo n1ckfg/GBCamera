@@ -15,5 +15,8 @@ void keyPressed() {
     case 'b':
       useBorders = !useBorders;
       break;
+    case 't':
+      useTv = !useTv;
+      break;
   }
 }

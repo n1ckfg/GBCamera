@@ -22,7 +22,7 @@ vec3 adjustGamma(vec3 color, float gamma) {
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 uv = fragCoord.xy / iResolution.xy;
-    //vec2 uv2 = vec2(uv.x, abs(1.0 - uv.y));
+    //uv = vec2(uv.x, abs(1.0 - uv.y));
     vec3 centerColor = texture2D(tex0, uv).xyz;   
     vec3 leftColor = texture2D(tex0, uv - vec2(texelSize.x, 0.0)).xyz;
     vec3 rightColor = texture2D(tex0, uv + vec2(texelSize.x, 0.0)).xyz;
