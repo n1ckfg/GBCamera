@@ -5,7 +5,7 @@ import processing.video.*;
 Capture video;
 int captureIndex = 0;
 boolean preview;
-PShader shader_delay, shader_gb, shader_px, shader_vhsc, shader_tv;
+PShader shader_delay, shader_gb, shader_px, shader_vhsc, shader_tv, shader_hc;
 PGraphics buffer0, buffer1, buffer2, buffer3, buffer4;
 int textureSampleMode = 3;
 boolean useBorders = false;
@@ -17,10 +17,11 @@ void setup() {
   noSmooth();
  
   shader_delay = loadShader("delay.glsl");
-  shader_gb = loadShader("gb.glsl");
-  shader_px = loadShader("px.glsl");
+  shader_gb = loadShader("gameboy.glsl");
+  shader_px = loadShader("pixelvision.glsl");
   shader_vhsc = loadShader("vhsc.glsl");
   shader_tv = loadShader("tv.glsl");
+  shader_hc = loadShader("hypercard.glsl");
   
   setupSpecs();
 
@@ -54,6 +55,9 @@ void draw() {
       break;
     case "vhs-c":
       buffer0.filter(shader_vhsc);
+      break;
+    case "hypercard":
+      buffer0.filter(shader_hc);
       break;
   }
   buffer2.endDraw();

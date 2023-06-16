@@ -48,6 +48,18 @@ void setupSpecs(String _format) {
       finalH = baseH;
       delaySpeed = 0.2;
       break;
+    case "hypercard":
+      camW = 640;
+      camH = 480;
+      camFps = 30;
+      baseW = 512;
+      baseH = 342;
+      cropW = baseW;
+      cropH = baseH;
+      finalW = baseW;
+      finalH = baseH;
+      delaySpeed = 0.2;
+      break;
   }
   
   init();
@@ -95,6 +107,9 @@ void init() {
 
   shader_vhsc.set("iResolution", float(buffer0.width), float(buffer0.height));
   shader_vhsc.set("tex0", buffer0);
+
+  shader_hc.set("iResolution", float(buffer0.width), float(buffer0.height));
+  shader_hc.set("tex0", buffer0);
   
   shader_tv.set("iResolution", float(width), float(height));
   shader_tv.set("tex0", buffer4);

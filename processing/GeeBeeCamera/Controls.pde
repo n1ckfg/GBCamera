@@ -9,6 +9,9 @@ void keyPressed() {
     case '3':
       setupSpecs("vhs-c");
       break;
+    case '4':
+      setupSpecs("hypercard");
+      break;
     case 'p':
       preview = !preview;
       break;
