@@ -12,6 +12,16 @@ float getLuminance(vec3 col) {
     return dot(col, vec3(0.299, 0.587, 0.114));
 }
 
+// https://github.com/dmnsgn/glsl-tone-map
+float tone_map_aces(float x) {
+  const float a = 2.51;
+  const float b = 0.03;
+  const float c = 2.43;
+  const float d = 0.59;
+  const float e = 0.14;
+  return clamp((x * (a * x + b)) / (x * (c * x + d) + e), 0.0, 1.0);
+}
+
 float map(float s, float a1, float a2, float b1, float b2) {
     return b1 + (s - a1) * (b2 - b1) / (a2 - a1);
 }
@@ -33,7 +43,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec3 sharpenedColor = blurredColor * 5.0 - (leftColor + rightColor + topColor + bottomColor);
     vec3 posterizedColor = floor(sharpenedColor * posterizeLevels) / posterizeLevels;
 
-    float luminance0 = getLuminance(posterizedColor);
+    float luminance0 = tone_map_aces(getLuminance(posterizedColor));
     float luminance1 = pow(map(luminance0, 0.05, 0.95, 0.0, 1.0), 1.0 / gamma);
 
     fragColor = vec4(luminance1, luminance1, luminance1, 1.0);

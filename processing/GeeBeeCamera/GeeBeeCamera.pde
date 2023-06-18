@@ -5,7 +5,7 @@ import processing.video.*;
 Capture video;
 int captureIndex = 0;
 boolean preview;
-PShader shader_delay, shader_gb, shader_px, shader_vhsc, shader_tv, shader_hc;
+PShader shader_delay, shader_gb, shader_px, shader_vhsc, shader_tv, shader_hc, shader_flm;
 PGraphics buffer0, buffer1, buffer2, buffer3, buffer4;
 int textureSampleMode = 3;
 boolean useBorders = false;
@@ -22,6 +22,7 @@ void setup() {
   shader_vhsc = loadShader("vhsc.glsl");
   shader_tv = loadShader("tv.glsl");
   shader_hc = loadShader("hypercard.glsl");
+  shader_flm = loadShader("film.glsl");
   
   setupSpecs();
 
@@ -58,6 +59,9 @@ void draw() {
       break;
     case "hypercard":
       buffer0.filter(shader_hc);
+      break;
+    case "film":
+      buffer0.filter(shader_flm);
       break;
   }
   buffer2.endDraw();

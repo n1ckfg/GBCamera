@@ -12,6 +12,9 @@ void keyPressed() {
     case '4':
       setupSpecs("hypercard");
       break;
+    case '5':
+      setupSpecs("film");
+      break;
     case 'p':
       preview = !preview;
       break;

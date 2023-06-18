@@ -5,7 +5,6 @@ const float gamma = 1.2;
 const vec2 texelSize = vec2(1.0/120.0, 1.0/90.0);
 const float posterizeLevels = 90;
 
-//const float sigma = 2.0;
 const float kernel[5] = float[](0.10, 0.20, 0.40, 0.20, 0.10);
 
 float getLuminance(vec3 col) {
@@ -23,6 +22,7 @@ vec3 adjustGamma(vec3 color, float gamma) {
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 uv = fragCoord.xy / iResolution.xy;
     //uv = vec2(uv.x, abs(1.0 - uv.y));
+    
     vec3 centerColor = texture2D(tex0, uv).xyz;   
     vec3 leftColor = texture2D(tex0, uv - vec2(texelSize.x, 0.0)).xyz;
     vec3 rightColor = texture2D(tex0, uv + vec2(texelSize.x, 0.0)).xyz;
@@ -33,10 +33,6 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec3 sharpenedColor = blurredColor * 5.0 - (leftColor + rightColor + topColor + bottomColor);
     vec3 posterizedColor = floor(sharpenedColor * posterizeLevels) / posterizeLevels;
 
-    //float luminance0 = getLuminance(posterizedColor);
-    //float luminance1 = pow(map(luminance0, 0.05, 0.95, 0.0, 1.0), 1.0 / gamma);
-
-    //fragColor = vec4(luminance1, luminance1, luminance1, 1.0);
     fragColor = vec4(posterizedColor, 1.0);
 }
 
