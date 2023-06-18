@@ -34,7 +34,7 @@ void setupSpecs(String _format) {
       cropH = baseH;
       finalW = 160;
       finalH = 120;
-      delaySpeed = 0.1;
+      delaySpeed = 0.2;
       break;
     case "vhs-c":
       camW = 640;

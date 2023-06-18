@@ -32,6 +32,7 @@ void setup() {
 
 void draw() {
   background(0);
+  float time = (float) millis() / 1000.0;
   
   // 0. Original video image
   buffer0.beginDraw();
@@ -61,6 +62,7 @@ void draw() {
       buffer0.filter(shader_hc);
       break;
     case "film":
+      shader_flm.set("time", time);
       buffer0.filter(shader_flm);
       break;
   }
@@ -71,7 +73,7 @@ void draw() {
   buffer3.image(buffer0, cropOffsetW, cropOffsetH);
   buffer3.endDraw();
     
-  // 4. Expand to final dimensions
+  // 4. Expand to final dimensions55
   buffer4.beginDraw();
   buffer4.background(0);
   if (useBorders) {
@@ -88,7 +90,7 @@ void draw() {
   }
   
   if (useTv) {
-    shader_tv.set("time", (float)millis() / 1000.0);
+    shader_tv.set("time", time);
     filter(shader_tv);
   }
     
