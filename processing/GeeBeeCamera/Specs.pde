@@ -2,7 +2,11 @@ String format = "gameboy";
 
 int camW, camH, camFps, baseW, baseH, cropW, cropH, finalW, finalH;
 int cropOffsetW, cropOffsetH, marginW, marginH;
+
 float delaySpeed;
+float lumaThreshold = 0.2;
+float alphaMin = 0.1;
+float alphaMax = 1.0;
 
 void setupSpecs() {
   setupSpecs("gameboy");
@@ -107,10 +111,13 @@ void init() {
   buffer4.noSmooth();
 
   shader_delay.set("iResolution", float(buffer0.width), float(buffer0.height));
-  shader_delay.set("delaySpeed", delaySpeed);
   shader_delay.set("tex0", buffer0);
   shader_delay.set("tex1", buffer1);
-  
+  shader_delay.set("delaySpeed", delaySpeed);
+  shader_delay.set("lumaThreshold", lumaThreshold);
+  shader_delay.set("alphaMin", alphaMin);
+  shader_delay.set("alphaMax", alphaMax);
+
   shader_gb.set("iResolution", float(buffer0.width), float(buffer0.height));
   shader_gb.set("tex0", buffer0);
   
