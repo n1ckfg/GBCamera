@@ -1,4 +1,4 @@
-<jittershader name="VHS-C">
+<jittershader name="Pixelvision">
     <description>Analog video effect.</description>
 
 	<param name="modelViewProjectionMatrix" type="mat4" state="MODELVIEW_PROJECTION_MATRIX"/>
@@ -9,8 +9,8 @@
 
     <param name="tex0" type="int" default="0"/>
     <param name="gamma" type="float" default="1.2"/>
-    <param name="posterizeLevels" type="float" default="16.0"/>
-    <param name="texelSize" type="vec2" default="8 11"/>
+    <param name="posterizeLevels" type="float" default="90.0"/>
+    <param name="texelSize" type="vec2" default="0.008 0.011"/>
 
     <language name="glsl" version="3.0">
 		<bind param="modelViewProjectionMatrix" program="vp"/>
@@ -59,14 +59,25 @@ in jit_PerVertex {
 layout (location = 0) out vec4 outColor;
 			
 uniform sampler2DRect tex0; 
-uniform float gamma;// = 1.2;
-uniform float posterizeLevels;// = 90;
-uniform vec2 texelSize;// = vec2(1.0/120.0, 1.0/90.0);
+uniform float gamma; // = 1.2;
+uniform vec2 texelSize; // = vec2(1.0/120.0, 1.0/90.0); // = vec2(0.008, 0.011);
+uniform float posterizeLevels; // = 90;
 
+const float sigma = 2.0;
 const float kernel[5] = float[](0.10, 0.20, 0.40, 0.20, 0.10);
 
 float getLuminance(vec3 col) {
     return dot(col, vec3(0.299, 0.587, 0.114));
+}
+
+// https://github.com/dmnsgn/glsl-tone-map
+float tone_map_aces(float x) {
+  const float a = 2.51;
+  const float b = 0.03;
+  const float c = 2.43;
+  const float d = 0.59;
+  const float e = 0.14;
+  return clamp((x * (a * x + b)) / (x * (c * x + d) + e), 0.0, 1.0);
 }
 
 float map(float s, float a1, float a2, float b1, float b2) {
@@ -74,13 +85,13 @@ float map(float s, float a1, float a2, float b1, float b2) {
 }
 
 vec3 adjustGamma(vec3 color, float gamma) {
-    return pow(color, vec3(1.0 / gamma)); 
+    return pow(color, vec3(1.0 / gamma));
 }
 
 void main(void) {
     vec2 uv = jit_in.texcoord;
     
-    vec3 centerColor = texture(tex0, uv).xyz;     
+    vec3 centerColor = texture(tex0, uv).xyz;   
     vec3 leftColor = texture(tex0, uv - vec2(texelSize.x, 0.0)).xyz;
     vec3 rightColor = texture(tex0, uv + vec2(texelSize.x, 0.0)).xyz;
     vec3 topColor = texture(tex0, uv + vec2(0.0, texelSize.y)).xyz;
@@ -90,7 +101,10 @@ void main(void) {
     vec3 sharpenedColor = blurredColor * 5.0 - (leftColor + rightColor + topColor + bottomColor);
     vec3 posterizedColor = floor(sharpenedColor * posterizeLevels) / posterizeLevels;
 
-    outColor = vec4(posterizedColor, 1.0);
+    float luminance0 = tone_map_aces(getLuminance(posterizedColor));
+    float luminance1 = pow(map(luminance0, 0.05, 0.95, 0.0, 1.0), 1.0 / gamma);
+
+    outColor = vec4(luminance1, luminance1, luminance1, 1.0);
 }
 ]]>
         </program>
