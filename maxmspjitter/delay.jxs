@@ -5,8 +5,8 @@
     <param name="textureMatrix0" type="mat4" state="TEXTURE0_MATRIX"/>
     <param name="textureMatrix1" type="mat4" state="TEXTURE1_MATRIX"/>
 	<param name="position" type="vec3" state="POSITION"/>
-    <param name="texcoord0" type="vec2" state="TEXCOORD0"/>
-    <param name="texcoord1" type="vec2" state="TEXCOORD1"/>
+    <param name="texcoord0" type="vec2" state="TEXCOORD"/>
+    <param name="texcoord1" type="vec2" state="TEXCOORD"/>
 	<param name="color" type="vec4" state="COLOR"/>
 
     <param name="tex0" type="int" default="0"/>
