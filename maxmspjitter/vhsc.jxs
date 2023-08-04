@@ -9,8 +9,8 @@
 
     <param name="tex0" type="int" default="0"/>
     <param name="gamma" type="float" default="1.2"/>
-    <param name="posterizeLevels" type="float" default="16.0"/>
-    <param name="texelSize" type="vec2" default="8 11"/>
+    <param name="posterizeLevels" type="float" default="90.0"/>
+    <param name="texelSize" type="vec2" default="0.008 0.011"/>
 
     <language name="glsl" version="3.0">
 		<bind param="modelViewProjectionMatrix" program="vp"/>
