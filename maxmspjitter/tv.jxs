@@ -9,6 +9,9 @@
 
     <param name="tex0" type="int" default="0"/>
     <param name="time" type="float" default="0.0"/>
+    <param name="lineThickness" type="float" default="1.2"/>
+    <param name="lineDarkness" type="float" default="0.1"/>
+    <param name="flicker" type="float" default="0.02"/>
 
     <language name="glsl" version="3.0">
 		<bind param="modelViewProjectionMatrix" program="vp"/>
@@ -19,6 +22,9 @@
 
         <bind param="tex0" program="fp"/>
         <bind param="time" program="fp"/>
+        <bind param="lineThickness" program="fp"/>
+        <bind param="lineDarkness" program="fp"/>
+        <bind param="flicker" program="fp"/>
 
 		<program name="vp" type="vertex"> 
 <![CDATA[
@@ -56,15 +62,18 @@ layout (location = 0) out vec4 outColor;
 			
 uniform sampler2DRect tex0; 
 uniform float time;
+uniform float lineThickness;
+uniform float lineDarkness;
+uniform float flicker;
 
 void main(void) {
     vec2 uv = jit_in.texcoord;
     
     vec3 col = texture(tex0, uv).xyz;
 
-    float scanline = sin(uv.y * 1.2) * 0.1;
+    float scanline = sin(uv.y * lineThickness) * lineDarkness;
 
-    float noise = sin(time * 100.0) * 0.02;
+    float noise = sin(time * 100.0) * flicker;
 
     outColor = vec4(col + noise - scanline, 1.0);
 }
