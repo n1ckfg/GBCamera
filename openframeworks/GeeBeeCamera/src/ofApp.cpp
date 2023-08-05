@@ -27,6 +27,9 @@ void ofApp::setup() {
     videoInverted.allocate(vidGrabber.getWidth(), vidGrabber.getHeight(), OF_PIXELS_RGB);
     videoTexture.allocate(videoInverted);
     ofSetVerticalSync(true);
+
+    plane.set(ofGetWidth(), ofGetHeight(), 3, 3, OF_PRIMITIVE_TRIANGLES);
+    plane.mapTexCoordsFromTexture(vidGrabber.getTextureReference());
 }
 
 
@@ -36,25 +39,20 @@ void ofApp::update() {
     vidGrabber.update();
 
     if (vidGrabber.isFrameNew()) {
-        ofPixels & pixels = vidGrabber.getPixels();
-        for (size_t i = 0; i < pixels.size(); i++) {
-            //invert the color of the pixel
-            videoInverted[i] = 255 - pixels[i];
-        }
-        //load the inverted pixels() {
-        videoTexture.loadData(videoInverted);
+        //
     }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-    ofSetColor(255);
+    vidGrabber.getTextureReference().bind();
     shader.begin();
-    vidGrabber.draw(20, 20);
-    videoTexture.draw(20 + camWidth, 20, camWidth, camHeight);
-
-    ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
+    ofPushMatrix();
+    ofTranslate(ofGetWidth() / 2, ofGetHeight() / 2);
+    plane.draw();
+    ofPopMatrix();
     shader.end();
+    vidGrabber.getTextureReference().unbind();
 }
 
 

@@ -33,4 +33,6 @@ class ofApp : public ofBaseApp{
         int camWidth;
         int camHeight;
         ofShader shader;
+        ofPlanePrimitive plane;
+
 };
