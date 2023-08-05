@@ -11,7 +11,7 @@
     <param name="matrixSize" type="int" default="4"/>
     <param name="finalThreshold" type="float" default="0.4"/>
 
-    <language name="glsl" version="3.0">
+    <language name="glsl" version="1.5">
 		<bind param="modelViewProjectionMatrix" program="vp"/>
 		<bind param="textureMatrix0" program="vp"/>
 		<bind param="position" program="vp"/>

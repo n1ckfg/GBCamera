@@ -13,7 +13,7 @@
     <param name="lineDarkness" type="float" default="0.1"/>
     <param name="flicker" type="float" default="0.02"/>
 
-    <language name="glsl" version="3.0">
+    <language name="glsl" version="1.5">
 		<bind param="modelViewProjectionMatrix" program="vp"/>
 		<bind param="textureMatrix0" program="vp"/>
 		<bind param="position" program="vp"/>

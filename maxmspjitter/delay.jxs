@@ -16,7 +16,7 @@
     <param name="alphaMax" type="float" default="1.0"/>
     <param name="alphaMin" type="float" default="0.1"/>
 
-    <language name="glsl" version="3.0">
+    <language name="glsl" version="1.5">
 		<bind param="modelViewProjectionMatrix" program="vp"/>
         <bind param="textureMatrix0" program="vp"/>
         <bind param="textureMatrix1" program="vp"/>

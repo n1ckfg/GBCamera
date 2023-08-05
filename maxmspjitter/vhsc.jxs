@@ -12,7 +12,7 @@
     <param name="posterizeLevels" type="float" default="90.0"/>
     <param name="texelSize" type="vec2" default="0.008 0.011"/>
 
-    <language name="glsl" version="3.0">
+    <language name="glsl" version="1.5">
 		<bind param="modelViewProjectionMatrix" program="vp"/>
 		<bind param="textureMatrix0" program="vp"/>
 		<bind param="position" program="vp"/>
