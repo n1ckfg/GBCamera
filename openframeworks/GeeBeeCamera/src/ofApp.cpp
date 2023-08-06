@@ -5,10 +5,8 @@ void ofApp::setup() {
 #ifdef TARGET_OPENGLES
 	shader.load("vhsc_es3");
 #else
-	if(ofIsGLProgrammableRenderer()){
+	if(ofIsGLProgrammableRenderer()) {
 		shader.load("vhsc_gl3");
-	}else{
-		shader.load("vhsc_gl2");
 	}
 #endif
 
