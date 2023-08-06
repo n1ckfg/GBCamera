@@ -2,7 +2,15 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-    shader.load("vhsc");
+#ifdef TARGET_OPENGLES
+	shader.load("vhsc_es3");
+#else
+	if(ofIsGLProgrammableRenderer()){
+		shader.load("vhsc_gl3");
+	}else{
+		shader.load("vhsc_gl2");
+	}
+#endif
 
     camWidth = 640;  // try to grab at this size.
     camHeight = 480;

@@ -2,13 +2,28 @@
 #include "ofApp.h"
 
 //========================================================================
-int main( ){
+int main() {
+	
+	int w = 1024;
+	int h = 768;
 
+	// setup the GL context
+#ifdef TARGET_OPENGLES
+	ofGLESWindowSettings settings;
+	settings.glesVersion = 3;
+	settings.setSize(w, h);
+	ofCreateWindow(settings);
+#else
     ofGLFWWindowSettings settings;
-    settings.setGLVersion(3, 2);
-    settings.setSize(1024, 768);
-    ofCreateWindow(settings);
+	settings.setGLVersion(3,2);
+    settings.numSamples = 0;
+	settings.setSize(w, h);
+    ofCreateWindow(settings);                       
+#endif
 
-    ofRunApp(new ofApp());
+    // this kicks off the running of my app
+    // can be OF_WINDOW or OF_FULLSCREEN
+    // pass in width and height too:
+    ofRunApp( new ofApp());
 
 }
