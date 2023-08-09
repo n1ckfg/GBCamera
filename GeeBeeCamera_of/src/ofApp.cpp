@@ -12,6 +12,7 @@ void ofApp::setup() {
 
     camWidth = 640;  // try to grab at this size.
     camHeight = 480;
+    camFps = 30;
 
     //get back a list of devices.
     vector<ofVideoDevice> devices = vidGrabber.listDevices();
@@ -27,7 +28,7 @@ void ofApp::setup() {
     }
 
     vidGrabber.setDeviceID(0);
-    vidGrabber.setDesiredFrameRate(30);
+    vidGrabber.setDesiredFrameRate(camFps);
     vidGrabber.initGrabber(camWidth, camHeight);
 
     videoInverted.allocate(vidGrabber.getWidth(), vidGrabber.getHeight(), OF_PIXELS_RGB);
@@ -55,6 +56,7 @@ void ofApp::draw() {
     shader.begin();
     ofPushMatrix();
     ofTranslate(ofGetWidth() / 2, ofGetHeight() / 2);
+    ofScale(1.0, -1.0, 1.0);
     plane.draw();
     ofPopMatrix();
     shader.end();

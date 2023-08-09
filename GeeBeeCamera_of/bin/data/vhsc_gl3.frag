@@ -6,8 +6,8 @@ in vec2 varyingtexcoord;
 out vec4 outputColor;
 
 const float gamma = 1.2;
-const vec2 texelSize = vec2(8, 8); //1.0/120.0, 1.0/90.0);
-const float posterizeLevels = 16; //90;
+const vec2 texelSize = vec2(8.0, 8.0); //1.0/120.0, 1.0/90.0); //0.008, 0.011
+const float posterizeLevels = 16.0; //90.0;
 
 const float kernel[5] = float[](0.10, 0.20, 0.40, 0.20, 0.10);
 
@@ -24,7 +24,7 @@ vec3 adjustGamma(vec3 color, float gamma) {
 }
 
 void main() {
-    vec2 uv = vec2(varyingtexcoord.x, abs(480.0 - varyingtexcoord.y));
+    vec2 uv = varyingtexcoord;
     
     vec3 centerColor = texture(tex0, uv).xyz;   
     vec3 leftColor = texture(tex0, uv - vec2(texelSize.x, 0.0)).xyz;

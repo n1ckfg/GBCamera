@@ -32,6 +32,7 @@ class ofApp : public ofBaseApp{
         ofTexture videoTexture;
         int camWidth;
         int camHeight;
+        int camFps;
         ofShader shader;
         ofPlanePrimitive plane;
 

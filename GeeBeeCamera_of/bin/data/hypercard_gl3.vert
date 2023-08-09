@@ -6,6 +6,7 @@ uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 uniform mat4 textureMatrix;
 uniform mat4 modelViewProjectionMatrix;
+uniform vec2 dim;
 
 in vec4 position;
 in vec4 color;
@@ -17,7 +18,7 @@ out vec2 varyingtexcoord;
 
 void main()
 {
-    varyingtexcoord = texcoord;
+    varyingtexcoord = vec2(texcoord.x, dim.y+texcoord.y);
 
     gl_Position = modelViewProjectionMatrix * position;
 }
