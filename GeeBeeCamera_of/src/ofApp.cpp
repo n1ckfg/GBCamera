@@ -6,7 +6,7 @@ void ofApp::setup() {
 	shader.load("vhsc_es3");
 #else
 	if(ofIsGLProgrammableRenderer()) {
-		shader.load("vhsc_gl3");
+		shader.load("pixelvision_gl3");
 	}
 #endif
 
