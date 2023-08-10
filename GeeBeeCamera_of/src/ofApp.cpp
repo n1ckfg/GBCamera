@@ -39,7 +39,12 @@ std::cout << endl;
         }
     }
 
-    vidGrabber.setDeviceID(0);
+    int deviceIndex = 0;
+#ifdef TARGET_OSX
+    deviceIndex = 1;
+#endif
+
+    vidGrabber.setDeviceID(deviceIndex);
     vidGrabber.setDesiredFrameRate(camFps);
     vidGrabber.initGrabber(camWidth, camHeight);
 
