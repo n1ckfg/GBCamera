@@ -3,11 +3,13 @@
 //--------------------------------------------------------------
 void ofApp::setup() {
 #ifdef TARGET_OPENGLES
-	shader.load("vhsc_es3");
+	shader.load("vhsc_es2");
 #else
-	if(ofIsGLProgrammableRenderer()) {
-		shader.load("pixelvision_gl3");
-	}
+    if (ofIsGLProgrammableRenderer()) {
+        shader.load("vhsc_gl3");
+    } else {
+        shader.load("vhsc_gl2");
+    }
 #endif
 
     camWidth = 640;  // try to grab at this size.

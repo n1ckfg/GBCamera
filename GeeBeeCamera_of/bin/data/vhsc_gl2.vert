@@ -1,6 +1,4 @@
-#version 310 es
-
-precision highp float;
+#version 120
 
 // these are for the programmable pipeline system and are passed in
 // by default from OpenFrameworks
@@ -19,7 +17,7 @@ out vec2 varyingtexcoord;
 
 void main()
 {
-    varyingtexcoord = vec2(texcoord.x, texcoord.y);
+    varyingtexcoord = texcoord;
 
     gl_Position = modelViewProjectionMatrix * position;
 }
