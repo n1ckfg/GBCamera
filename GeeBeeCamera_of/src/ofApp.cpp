@@ -2,15 +2,25 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
+std::cout << endl;
 #ifdef TARGET_OPENGLES
+    if (ofIsGLProgrammableRenderer()) {
+	shader.load("vhsc_es3");
+	std::cout << "* * * Using OpenGL ES3 * * *" << endl;
+    } else {
 	shader.load("vhsc_es2");
+	std::cout << "* * * Using OpenGL ES2 * * *" << endl;
+    }
 #else
     if (ofIsGLProgrammableRenderer()) {
         shader.load("vhsc_gl3");
+	std::cout << "* * * Using OpenGL 3 * * *" << endl;
     } else {
         shader.load("vhsc_gl2");
+	std::cout << "* * * Using OpenGL 2 * * *" << endl;
     }
 #endif
+std::cout << endl;
 
     camWidth = 640;  // try to grab at this size.
     camHeight = 480;
