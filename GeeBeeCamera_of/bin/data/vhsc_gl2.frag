@@ -2,8 +2,7 @@
 
 uniform sampler2DRect tex0;
 
-in vec2 varyingtexcoord;
-out vec4 outputColor;
+varying vec2 varyingtexcoord;
 
 const float gamma = 1.2;
 const vec2 texelSize = vec2(8.0, 8.0); //1.0/120.0, 1.0/90.0); //0.008, 0.011
@@ -26,15 +25,15 @@ vec3 adjustGamma(vec3 color, float gamma) {
 void main() {
     vec2 uv = varyingtexcoord;
     
-    vec3 centerColor = texture(tex0, uv).xyz;   
-    vec3 leftColor = texture(tex0, uv - vec2(texelSize.x, 0.0)).xyz;
-    vec3 rightColor = texture(tex0, uv + vec2(texelSize.x, 0.0)).xyz;
-    vec3 topColor = texture(tex0, uv + vec2(0.0, texelSize.y)).xyz;
-    vec3 bottomColor = texture(tex0, uv - vec2(0.0, texelSize.y)).xyz;
+    vec3 centerColor = texture2DRect(tex0, uv).xyz;   
+    vec3 leftColor = texture2DRect(tex0, uv - vec2(texelSize.x, 0.0)).xyz;
+    vec3 rightColor = texture2DRect(tex0, uv + vec2(texelSize.x, 0.0)).xyz;
+    vec3 topColor = texture2DRect(tex0, uv + vec2(0.0, texelSize.y)).xyz;
+    vec3 bottomColor = texture2DRect(tex0, uv - vec2(0.0, texelSize.y)).xyz;
 
     vec3 blurredColor = topColor * kernel[0] + leftColor * kernel[1] + centerColor * kernel[2] + rightColor * kernel[3] + bottomColor * kernel[4];
     vec3 sharpenedColor = blurredColor * 5.0 - (leftColor + rightColor + topColor + bottomColor);
     vec3 posterizedColor = floor(sharpenedColor * posterizeLevels) / posterizeLevels;
 
-    outputColor = vec4(posterizedColor, 1.0);
+    gl_FragColor = vec4(posterizedColor, 1.0);
 }

@@ -1,23 +1,10 @@
 #version 120
 
-// these are for the programmable pipeline system and are passed in
-// by default from OpenFrameworks
-uniform mat4 modelViewMatrix;
-uniform mat4 projectionMatrix;
-uniform mat4 textureMatrix;
-uniform mat4 modelViewProjectionMatrix;
+varying vec2 varyingtexcoord;
 
-in vec4 position;
-in vec4 color;
-in vec4 normal;
-in vec2 texcoord;
-// this is the end of the default functionality
+void main() {
+    varyingtexcoord = gl_MultiTexCoord0.xy;
 
-out vec2 varyingtexcoord;
-
-void main()
-{
-    varyingtexcoord = texcoord;
-
-    gl_Position = modelViewProjectionMatrix * position;
+    // send the vertices to the fragment shader
+	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;;
 }
