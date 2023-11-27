@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxXmlSettings.h"
 
 // This openFrameworks example is designed to demonstrate how to access the
 // webcam.
@@ -26,6 +27,9 @@ class ofApp : public ofBaseApp{
         void windowResized(int w, int h);
         void dragEvent(ofDragInfo dragInfo);
         void gotMessage(ofMessage msg);        
+
+        ofxXmlSettings settings;
+        int deviceIndex;
 
         ofVideoGrabber vidGrabber;
         ofPixels videoInverted;

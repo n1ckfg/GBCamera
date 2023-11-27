@@ -2,7 +2,9 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-std::cout << endl;
+    settings.loadFile("settings.xml");
+
+    std::cout << endl;
 #ifdef TARGET_OPENGLES
     if (ofIsGLProgrammableRenderer()) {
 	shader.load("vhsc_es3");
@@ -39,10 +41,7 @@ std::cout << endl;
         }
     }
 
-    int deviceIndex = 0;
-#ifdef TARGET_OSX
-    deviceIndex = 1;
-#endif
+    deviceIndex = settings.getValue("settings:device_index", 0);
 
     vidGrabber.setDeviceID(deviceIndex);
     vidGrabber.setDesiredFrameRate(camFps);
