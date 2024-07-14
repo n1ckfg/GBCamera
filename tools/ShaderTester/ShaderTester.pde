@@ -34,7 +34,7 @@ void setup() {
   } else {
     video = new Capture(this, camW, camH, Capture.list()[captureIndex], camFps);
   }
-  video.start();w
+  video.start();
 
   shader.set("tex0", video);
   shader.set("iResolution", float(buffer.width), float(buffer.height));
