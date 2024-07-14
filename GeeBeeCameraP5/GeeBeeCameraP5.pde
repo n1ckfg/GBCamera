@@ -25,8 +25,11 @@ void setup() {
   shader_flm = loadShader("film.glsl");
   
   setupSpecs();
-
-  video = new Capture(this, camW, camH, Capture.list()[captureIndex], camFps);
+  if (System.getProperty("os.name").toLowerCase().startsWith("mac")) {
+    video = new Capture(this, camW, camH, "pipeline:autovideosrc");
+  } else {
+    video = new Capture(this, camW, camH, Capture.list()[captureIndex], camFps);
+  }
   video.start(); 
 }
 
