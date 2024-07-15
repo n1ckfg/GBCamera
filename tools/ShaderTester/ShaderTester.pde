@@ -23,10 +23,11 @@ void setup() {
 
   //shader = loadShader("delay.glsl");
   //shader = loadShader("gameboy.glsl");
-  shader = loadShader("pixelvision.glsl");
+  //shader = loadShader("pixelvision.glsl");
   //shader = loadShader("vhsc.glsl");
   //shader = loadShader("tv.glsl");
   //shader = loadShader("hypercard.glsl");
+  shader = loadShader("pencil_1.glsl");
   //shader = loadShader("film.glsl");
 
   if (System.getProperty("os.name").toLowerCase().startsWith("mac")) {
@@ -43,6 +44,7 @@ void setup() {
 void draw() {
   background(0);
   float time = (float) millis() / 1000.0;
+  shader.set("time", time);
 
   buffer.beginDraw();
   buffer.image(video, 0, 0, buffer.width, buffer.height);

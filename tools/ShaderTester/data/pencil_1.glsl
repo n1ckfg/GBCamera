@@ -2,10 +2,12 @@
 
 uniform sampler2D tex0;
 uniform vec2 iResolution;
+uniform float time;
 
 mat2 rot(float a) { 
-    float c=cos(a),s=sin(a);
-    return mat2(c,-s,s,c); 
+    float c = cos(a);
+    float s = sin(a);
+    return mat2(c, -s, s, c); 
 }
 
 float gyroid (vec3 seed) { 
@@ -33,7 +35,7 @@ vec4 bufferImage(vec4 fragColor, vec2 fragCoord) {
     vec4 frame = texture(tex0, uv);
     
     // timeline
-    float tick = mod(float(iFrame), 200.);
+    float tick = mod(float(time), 200.);
     
     // init
     if (tick < 1.) {
@@ -47,10 +49,10 @@ vec4 bufferImage(vec4 fragColor, vec2 fragCoord) {
         vec2 p = frame.xy;
         
         // seed
-        vec4 rng = hash41(tick+iDate.w+iDate.z+iDate.y+iDate.x);
+        vec4 rng = hash41(tick+time.w+time.z+time.y+time.x);
         
         // rotate
-        p.xy *= rot(rng.z*6.283);
+        //p.xy *= rot(rng.z*6.283);
         
         // translate
         p.xy += (rng.xy-.5)*2.;
