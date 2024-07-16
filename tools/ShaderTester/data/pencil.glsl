@@ -4,6 +4,12 @@ uniform sampler2D tex0;
 uniform vec2 iResolution;
 uniform float time;
 
+const float crush = 0.01;
+
+float map(float s, float a1, float a2, float b1, float b2) {
+    return b1 + (s - a1) * (b2 - b1) / (a2 - a1);
+}
+
 mat2 rot(float a) { 
     float c = cos(a);
     float s = sin(a);
@@ -108,7 +114,9 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     
     vec3 color = vec3((1.0 - edge) * (1.0 - ao));
 
-    fragColor = vec4(color, 1.0);
+    float f = map(color.x, crush, 1.0 - crush, 0.0, 1.0);
+
+    fragColor = vec4(f, f, f, 1.0);
 }
 
 

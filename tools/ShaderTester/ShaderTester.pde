@@ -25,15 +25,19 @@ void setup() {
   //shader = loadShader("vhsc.glsl");
   //shader = loadShader("tv.glsl");
   //shader = loadShader("hypercard.glsl");
-  shader = loadShader("pencil_1.glsl");
+  shader = loadShader("pencil.glsl");
   //shader = loadShader("film.glsl");
 
-  if (System.getProperty("os.name").toLowerCase().startsWith("mac")) {
-    video = new Capture(this, camW, camH, "pipeline: autovideosrc");
+  String os = System.getProperty("os.name");
+  if (os.toLowerCase().startsWith("mac")) {
+    println("MacOS detected");
+    video = new Capture(this, "pipeline: autovideosrc");
   } else {
+    println(os + " detected");
     video = new Capture(this, camW, camH, Capture.list()[captureIndex], camFps);
   }
   video.start();
+  println(video.width + ", " + video.height);
 
   shader.set("tex0", video);
   shader.set("iResolution", float(buffer.width), float(buffer.height));
