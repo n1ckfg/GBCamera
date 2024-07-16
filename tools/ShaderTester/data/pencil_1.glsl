@@ -43,16 +43,16 @@ vec4 bufferImage(vec4 fragColor, vec2 fragCoord) {
         frame = vec4(p, length(p), 0);
         
         // extra shape
-        //frame += step(frame.z, .9);
+        frame += step(frame.z, .9);
     } else if (tick < 30.) {    // iterate
         // previous coordinates
         vec2 p = frame.xy;
         
         // seed
-        vec4 rng = hash41(tick+time.w+time.z+time.y+time.x);
+        vec4 rng = hash41(tick+(time * 4));
         
         // rotate
-        //p.xy *= rot(rng.z*6.283);
+        p.xy *= rot(rng.z*6.283);
         
         // translate
         p.xy += (rng.xy-.5)*2.;
@@ -74,7 +74,7 @@ vec4 bufferImage(vec4 fragColor, vec2 fragCoord) {
         }
     }
     
-    fragColor = frame;
+    return frame;
 }
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
@@ -92,7 +92,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
         // blue noise scroll https://www.shadertoy.com/view/tlySzR
         ivec2 pp = ivec2(fragCoord);
         pp = (pp+(int(a))*ivec2(113,127)) & 1023;
-        vec3 blu = vec3(1,1,1); //texelFetch(iChannel1,pp,0).xyz;
+        vec3 blu = bufferImage(fragColor, fragCoord).xyz;
         
         // edge detection
         float f = a/count;

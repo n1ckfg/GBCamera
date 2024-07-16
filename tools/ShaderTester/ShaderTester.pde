@@ -1,5 +1,3 @@
-// https://petapixel.com/2022/05/05/a-review-of-the-nintendo-game-boy-camera-24-years-later/
-
 import processing.video.*;
 
 Capture video;
